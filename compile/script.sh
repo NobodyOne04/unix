@@ -16,7 +16,7 @@ fi
 
 TEMP_FOLDER=$(mktemp -d)
 
-trap "rm -Rf TEMP_FOLDER_PATH; exit 1" SIGKILL SIGINT SIGHUP SIGTERM
+trap "rm -Rf TEMP_FOLDER; exit 1" SIGKILL SIGINT SIGHUP SIGTERM
 
 cp "$1" "$TEMP_FOLDER"/
 
