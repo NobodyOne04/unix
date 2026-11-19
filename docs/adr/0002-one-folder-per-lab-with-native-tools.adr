@@ -9,8 +9,9 @@ autotools, Docker), with its generated or prebuilt output committed as submitted
 ## Technical details
 - **Lab 1** (`compile/script.sh`): reads `//Output: <name>` from the C source, copies the file
   to `mktemp -d`, compiles with `gcc`, moves the binary back and removes the temp folder;
-  errors on a missing argument, a missing name or a failed compile. Known slips: the `trap`
-  removes the literal `TEMP_FOLDER` (missing `$`), and `SIGKILL` can't be trapped.
+  errors on a missing argument, a missing name or a failed compile; a `trap` on INT, HUP and
+  TERM removes the temp folder (fixed 2026-11-19: it removed the literal `TEMP_FOLDER` and
+  listed the untrappable `SIGKILL`).
 - **Lab 2** (`threads/main.cpp`): a provider and a consumer thread hand off through
   `is_locked` guarded by a `pthread_mutex_t` and `pthread_cond_t`; CMake build.
 - **Lab 4** (`automake&autoconf/`): `configure.ac` + `Makefile.am` for `hello.c`, with the
