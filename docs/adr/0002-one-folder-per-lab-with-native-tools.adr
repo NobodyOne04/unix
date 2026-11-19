@@ -1,0 +1,25 @@
+# 0002. One folder per lab, each built with the tool the lab teaches
+
+- Status: Accepted
+- Date: 2026-11-19
+
+Every lab is a self-contained folder using the build tool it was about (a shell script, CMake,
+autotools, Docker), with its generated or prebuilt output committed as submitted.
+
+## Technical details
+- **Lab 1** (`compile/script.sh`): reads `//Output: <name>` from the C source, copies the file
+  to `mktemp -d`, compiles with `gcc`, moves the binary back and removes the temp folder;
+  errors on a missing argument, a missing name or a failed compile. Known slips: the `trap`
+  removes the literal `TEMP_FOLDER` (missing `$`), and `SIGKILL` can't be trapped.
+- **Lab 2** (`threads/main.cpp`): a provider and a consumer thread hand off through
+  `is_locked` guarded by a `pthread_mutex_t` and `pthread_cond_t`; CMake build.
+- **Lab 4** (`automake&autoconf/`): `configure.ac` + `Makefile.am` for `hello.c`, with the
+  generated `configure`, `Makefile.in`, `aclocal.m4` and helper scripts committed.
+- **Lab 5** (`docker/`): `python:3.7-alpine`, installs `app/requirements.txt`, runs the
+  Django dev server on port 80 (`manage.py runserver 0.0.0.0:80`).
+- **Binaries**: `compile/run` and `threads/run` are Linux x86-64 ELF files.
+
+## Technologies and alternatives
+- Involved: bash, gcc, CMake, pthreads, autoconf/automake, Docker, Django.
+- Alternatives: one top-level Makefile (would hide what each lab demonstrates); dropping the
+  generated files (the graders received them).
